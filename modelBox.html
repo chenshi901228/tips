@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            user-select: none;
+        }
+
+        .open {
+            outline: none;
+            background: none;
+            border: 1px solid #000;
+            padding: 10px 30px;
+            border-radius: 6px;
+            transition: .2s;
+        }
+
+        .confirm {
+            outline: none;
+            background: none;
+            border: 1px solid #277ccc;
+            padding: 8px 16px;
+            background-color: #277ccc;
+            color: #fff;
+            border-radius: 6px;
+            float: right;
+            margin: 16px;
+            cursor: pointer;
+        }
+
+        .content::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .open:hover {
+            color: #fff;
+            background-color: #277ccc;
+            border: 1px solid #277ccc;
+            cursor: pointer;
+        }
+
+        .model-box {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, .6);
+            display: none;
+        }
+
+        .content {
+            display: inline-block;
+            min-width: 300px;
+            /* height: 200px; */
+            background-color: #fff;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 6px;
+        }
+
+        .title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .title:active {
+            cursor: move;
+        }
+
+        .title p {
+            font-size: 18px;
+        }
+
+        .title p:last-child {
+            cursor: pointer;
+        }
+
+        .form {
+            padding: 0 16px;
+            margin-top: 18px;
+        }
+
+        .form label {
+            font-size: 16px;
+        }
+
+        .form input {
+            margin: 6px 0;
+            outline: none;
+            height: 30px;
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #000;
+            padding-left: 10px;
+        }
+
+        .form input:focus {
+            border-color: #277ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <input class="open" type="button" value="弹框">
+    <div class="model-box">
+        <div class="content">
+            <div class="title">
+                <p>这是标题</p>
+                <p class="cancel">X</p>
+            </div>
+            <div class="form">
+                <label for="userName">用户名：</label><br />
+                <input type="text" name="" id="userName"><br />
+                <label for="password">密码：</label><br />
+                <input type="password" name="" id="password">
+            </div>
+            <div>
+                <input class="confirm" type="button" value="Confirm">
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            let openBtn = document.querySelector(".open")
+            let closeBtn = document.querySelector(".cancel")
+            let confirmBtn = document.querySelector(".confirm")
+            let modelBox = document.querySelector(".model-box")
+            let modelContent = document.querySelector(".content")
+
+            let moveBox = document.querySelector(".title")
+
+
+            // 打开弹窗
+            openBtn.addEventListener("click", () => {
+                modelBox.style.display = "block"
+            })
+            // 关闭弹窗
+            closeBtn.addEventListener("click", () => {
+                modelBox.style.display = "none"
+                modelContent.style.left = 50 + "%"
+                modelContent.style.top = 50 + "%"
+            })
+            confirmBtn.addEventListener("click", () => {
+                // modelBox.style.display = "none"
+                console.log("ok")
+            })
+
+
+            moveBox.addEventListener("mousedown", (e) => {
+                if (e.target.nodeName === "DIV") {
+                    let offsetX = e.offsetX, offsetY = e.offsetY
+                    let rect = modelContent.getBoundingClientRect()
+                    let X = rect.width, Y = rect.height
+                    document.addEventListener("mousemove", moveFcuc)
+                    function moveFcuc(e) {
+                        let L = e.pageX - offsetX + X / 2, T = e.pageY - offsetY + Y / 2
+                        if (L <= X / 2) {
+                            L = X / 2
+                        }
+                        else if (L >= window.innerWidth - X / 2) {
+                            L = window.innerWidth - X / 2
+                        }
+                        else {
+                            L = e.pageX - offsetX + X / 2
+                        }
+
+                        if (T <= Y / 2) {
+                            T = Y / 2
+                        } else if (T >= window.innerHeight - Y / 2) {
+                            T = window.innerHeight - Y / 2
+                        } else {
+                            T = e.pageY - offsetY + Y / 2
+                        }
+
+                        modelContent.style.left = L + "px"
+                        modelContent.style.top = T + "px"
+                    }
+                    document.addEventListener("mouseup", () => {
+                        document.removeEventListener("mousemove", moveFcuc)
+                    })
+                }
+            })
+        }
+
+
+    </script>
+</body>
+
+</html>

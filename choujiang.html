@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+            width: 100%;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .showName {
+            width: 70%;
+            height: 120px;
+            margin: 20px auto;
+            border: 3px solid red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .showName p {
+            font-size: 80px;
+        }
+
+        .control button {
+            padding: 2px 10px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .result {
+            margin-top: 10px;
+        }
+
+        .nd {
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+            position: fixed;
+            right: 50px;
+            top: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <h2>中奖人</h2>
+        <div class="showName">
+            <p></p>
+        </div>
+        <div class="control">
+            <button class="startBtn">开始</button>
+            <button disabled class="stopBtn">停</button>
+        </div>
+        <div class="result">
+            <h3>一等奖(1名)</h3>
+            <p></p>
+            <h3>二等奖(1名)</h3>
+            <p></p>
+            <h3>三等奖(1名)</h3>
+            <p></p>
+        </div>
+        <div class="nd"></div>
+    </div>
+    <script>
+        let startBtn = document.querySelector(".startBtn")
+        let stopBtn = document.querySelector(".stopBtn")
+        let showName = document.querySelector(".showName p")
+        let r = document.querySelectorAll(".result p")
+        let ndBtn = document.querySelector(".nd")
+
+        let arr = ["张三", "李四", "王二", "赵大", "董存瑞", "陈实", "西斯科", "暗室逢灯", "安苏", "客家话", "阿松大", "自行车", "刻录机", "吗你现在"]
+        let ndName = "陈实"
+        let result, n = 3, timer, m = 0, hasNd = false
+
+
+        let animate = function () {
+            if (m == arr.length - 1) {
+                showName.innerHTML = arr[m]
+                m = 0
+            } else {
+                showName.innerHTML = arr[m]
+                m++
+            }
+        }
+
+
+        startBtn.addEventListener("click", function () {
+            timer = setInterval(animate, 50)
+            n--
+            startBtn.setAttribute("disabled", "")
+            stopBtn.removeAttribute("disabled")
+        })
+        stopBtn.addEventListener("click", function () {
+            clearInterval(timer)
+            m = 0
+            if (n == 0) {
+                startBtn.setAttribute("disabled", "")
+                stopBtn.setAttribute("disabled", "")
+            } else {
+                stopBtn.setAttribute("disabled", "")
+                startBtn.removeAttribute("disabled")
+            }
+            if (hasNd) {
+                showName.innerHTML = ndName
+                r[n].innerHTML = ndName
+                arr.splice(arr.indexOf(ndName), 1)
+            } else {
+                r[n].innerHTML = showName.innerText
+                arr.splice(arr.indexOf(showName.innerText), 1)
+            }
+        })
+
+        ndBtn.addEventListener("click", function () {
+            hasNd = true
+        })
+
+    </script>
+</body>
+
+</html>

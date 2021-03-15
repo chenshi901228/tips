@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .swiper {
+            position: relative;
+            width: 500px;
+            height: 360px;
+            border: 2px solid pink;
+            margin: 50px auto;
+            overflow: hidden;
+        }
+
+        .swiper>.slider {
+            display: flex;
+            position: absolute;
+            left: 0;
+            transition: 0.3s;
+        }
+
+        .item img {
+            width: 500px;
+            height: 360px;
+        }
+
+        ul {
+            position: absolute;
+            bottom: 20px;
+            right: 50px;
+            display: flex;
+        }
+
+        li {
+            list-style: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: gray;
+            margin-left: 6px;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background-color: red;
+            transform: scale(1.4);
+            transition: all 0.3s;
+        }
+
+        .active {
+            background-color: red;
+        }
+
+        .next,
+        .pre {
+            color: #666;
+            padding: 14px 10px;
+            background-color: rgba(255, 255, 255, 0.6);
+            position: absolute;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 6px;
+        }
+
+        .next:hover,
+        .pre:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .next {
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .pre {
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="swiper">
+        <div class="slider">
+            <div class="item">
+                <img src="https://picsum.photos/400/360?random=1" />
+            </div>
+            <div class="item">
+                <img src="https://picsum.photos/400/360?random=2" />
+            </div>
+            <div class="item">
+                <img src="https://picsum.photos/400/360?random=3" />
+            </div>
+            <div class="item">
+                <img src="https://picsum.photos/400/360?random=4" />
+            </div>
+            <div class="item">
+                <img src="https://picsum.photos/400/360?random=5" />
+            </div>
+            <div class="item">
+                <img src="https://picsum.photos/400/360?random=6" />
+            </div>
+        </div>
+        <ul>
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <div class="next">></div>
+        <div class="pre">&lt;
+        </div>
+    </div>
+    <script>
+        let wrap = document.querySelector(".swiper") //容器
+        let slider = document.querySelector(".swiper>.slider")
+        let items = document.querySelectorAll(".item")
+        let ulWrap = document.querySelector("ul")
+        let dots = document.querySelectorAll("ul li")
+
+        let nextBtn = document.querySelector(".next")
+        let preBtn = document.querySelector(".pre")
+
+        let n = 0, timer  //n:第几张图片  timer定时器
+        let m = items.length //有几张轮播图
+
+        //动画
+        let animate = function () {
+            n++
+            //如果是最后一张 跳到第一张
+            if (n == m) {
+                n = 0
+            }
+
+            // 清除所有小圆点样式
+            for (let i = 0; i < m; i++) {
+                dots[i].setAttribute("data-index", i)
+                dots[i].classList.remove("active")
+            }
+            // 当前小圆点添加样式
+            dots[n].classList.add("active")
+
+            //图片移动
+            slider.style.left = -500 * n + "px"
+        }
+
+
+        timer = setInterval(animate, 2000)
+
+        //鼠标移入停止轮播
+        wrap.onmouseenter = function () {
+            clearInterval(timer)
+        }
+        //鼠标移出开始轮播
+        wrap.onmouseleave = function () {
+            timer = setInterval(animate, 2000)
+        }
+
+        // 小圆点点击事件
+        ulWrap.addEventListener("click", function (e) {
+            if (e.target.nodeName == "LI") {
+                n = parseInt(e.target.dataset.index)
+                // 清除所有小圆点样式
+                for (let i = 0; i < m; i++) {
+                    // dots[i].setAttribute("data-index", i)
+                    dots[i].classList.remove("active")
+                }
+                // 当前小圆点添加样式
+                dots[n].classList.add("active")
+
+                //图片移动
+                slider.style.left = -500 * n + "px"
+            }
+        })
+        // next事件
+        nextBtn.addEventListener("click", function () {
+            n++
+            // 判断是否最后一张
+            if (n == m) {
+                n = 0
+            }
+            // 清除所有小圆点样式
+            for (let i = 0; i < m; i++) {
+                // dots[i].setAttribute("data-index", i)
+                dots[i].classList.remove("active")
+            }
+            // 当前小圆点添加样式
+            dots[n].classList.add("active")
+
+            //图片移动
+            slider.style.left = -500 * n + "px"
+        })
+        // pre事件
+        preBtn.addEventListener("click", function () {
+            n--
+            if (n == -1) {
+                n = m - 1
+            }
+            // 清除所有小圆点样式
+            for (let i = 0; i < m; i++) {
+                // dots[i].setAttribute("data-index", i)
+                dots[i].classList.remove("active")
+            }
+            // 当前小圆点添加样式
+            dots[n].classList.add("active")
+
+            //图片移动
+            slider.style.left = -500 * n + "px"
+        })
+    </script>
+</body>
+
+</html>

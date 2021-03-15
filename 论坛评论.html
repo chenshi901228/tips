@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论坛评论</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+            width: 500px;
+            /* height: 300px; */
+            margin: 30px auto;
+            border: 1px solid #000;
+        }
+
+        .title {
+            border-bottom: 1px solid #000;
+        }
+
+        .title h1 {
+            padding-left: 50px;
+            margin: 20px 0;
+        }
+
+        .replyBox {
+            overflow: auto;
+            padding: 4px 4px 4px 0;
+            display: block;
+        }
+
+        .replyBox a {
+            float: right;
+            color: blue;
+        }
+
+        .replyContent {
+            padding: 10px;
+            display: none;
+        }
+
+        #content {
+            width: 100%;
+        }
+
+        .replyContent>div {
+            margin-top: 8px;
+            display: flex;
+            justify-content: right;
+        }
+
+        .replyContent>div p {
+            background-color: #999;
+            margin-left: 10px;
+            padding: 2px 6px;
+        }
+
+        .replyContent>div p:hover {
+            background: pink;
+            cursor: pointer;
+        }
+
+        .releC {
+            border-bottom: 1px solid #000;
+            padding: 10px;
+        }
+
+        .releC p:last-child {
+            margin-top: 10px;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="title">
+            <p>老师说：</p>
+            <h1>今天学习DOM操作</h1>
+        </div>
+        <div class="replyBox">
+            <a class="replyBtn" href="javascript:void(0)">回复</a>
+        </div>
+        <div class="replyContent">
+            <textarea name="" id="content" cols="30" rows="10"></textarea>
+            <div>
+                <p class="re">评论</p>
+                <p class="cancel">取消</p>
+            </div>
+        </div>
+        <div class="rele">
+            <!-- <div class="releC">
+                <p>asdasfs</p>
+                <p>1楼</p>
+            </div>
+            <div class="releC">
+                <p>asdasfs</p>
+                <p>1楼</p>
+            </div> -->
+        </div>
+    </div>
+    <script>
+        let replyBtn = document.querySelector(".replyBtn")
+        let replyBox = document.querySelector(".replyBox")
+        let contentBox = document.querySelector(".replyContent")
+        let reBtn = document.querySelector(".re")
+        let cancelBtn = document.querySelector(".cancel")
+        let content = document.querySelector("#content")
+        let rele = document.querySelector(".rele")
+
+        let l = 1
+        replyBtn.addEventListener("click", function () {
+            replyBox.style.display = "none"
+            contentBox.style.display = "block"
+        })
+
+        cancelBtn.addEventListener("click", function () {
+            content.value = ""
+            replyBox.style.display = "block"
+            contentBox.style.display = "none"
+        })
+
+
+        reBtn.addEventListener("click", function () {
+            let value = content.value
+            if (value == "") {
+                alert("必须填入内容！！")
+            } else {
+                let newN = document.createElement("div")
+                newN.setAttribute("class", "releC")
+                newN.innerHTML = `
+                    <p>${content.value}</p>
+                    <p>${l}楼</p>
+                `
+                rele.appendChild(newN)
+
+                content.value = ""
+                l++
+                replyBox.style.display = "block"
+                contentBox.style.display = "none"
+            }
+        })
+    </script>
+</body>
+
+</html>

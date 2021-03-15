@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+            font-size: 32px;
+        }
+
+        div {
+            /* width: 600px; */
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        span {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            top: 20px;
+            animation: .5s swift-up ease-in-out forwards;
+        }
+
+        @keyframes swift-up {
+            to {
+                top: 0;
+            }
+        }
+
+        i {
+            font-style: normal;
+            position: relative;
+            top: 60px;
+            animation: 0.5s swift-up ease-in-out forwards;
+        }
+
+        span:nth-of-type(1) {
+            animation-delay: 0s;
+        }
+
+        span:nth-of-type(2) {
+            animation-delay: .1s;
+        }
+
+        span:nth-of-type(3) {
+            animation-delay: .2s;
+        }
+
+        span:nth-of-type(4) {
+            animation-delay: .3s;
+        }
+
+        span:nth-of-type(5) {
+            animation-delay: .4s;
+        }
+
+        span:nth-of-type(6) {
+            animation-delay: .5s;
+        }
+
+
+        span:nth-of-type(1) i {
+            animation-delay: 0s;
+        }
+
+        span:nth-of-type(2) i {
+            animation-delay: .1s;
+        }
+
+        span:nth-of-type(3) i {
+            animation-delay: .2s;
+        }
+
+        span:nth-of-type(4) i {
+            animation-delay: .3s;
+        }
+
+        span:nth-of-type(5) i {
+            animation-delay: .4s;
+        }
+
+        span:nth-of-type(6) i {
+            animation-delay: .5s;
+        }
+
+        @keyframes fade-in {
+            to {
+                opacity: 1;
+            }
+        }
+
+        p {
+            color: #666;
+            position: relative;
+            top: 20px;
+            opacity: 0;
+            animation: 0.5s swift-up ease-in-out forwards, 0.5s fade-in ease-in-out forwards;
+            animation-delay: .6s;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>
+            <span><i>hello</i></span>
+            <span><i>world</i></span>
+            <span><i>my</i></span>
+            <span><i>name</i></span>
+            <span><i>is</i></span>
+            <span><i>chenshi</i></span>
+        </h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati suscipit, molestiae, quos reiciendis quam
+            dolorem sit esse pariatur, error sed debitis quasi? Fuga qui dolor laudantium esse inventore! Iure, modi.
+        </p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 62.5%;
+        }
+
+        .headerNav {
+            width: 100vw;
+            height: 4rem;
+            background-color: #666;
+            position: relative;
+        }
+
+        #tagger {
+            display: none;
+        }
+
+        .headerNav span {
+            display: block;
+            width: 3rem;
+            height: 0.5rem;
+            background-color: #fff;
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            transition: transform 0.3s ease-in-out, top 0.3s ease-in-out 0.3s;
+        }
+
+        .headerNav span:first-child {
+            top: 1rem;
+        }
+
+        .headerNav span:last-child {
+            top: 2.5rem;
+        }
+
+        #tagger:checked+label>.headerNav span:first-child {
+            transform: rotate(45deg);
+            top: 1.75rem;
+            transition: top 0.3s ease-in-out, transform 0.3s ease-in-out 0.3s;
+        }
+
+        #tagger:checked+label>.headerNav span:last-child {
+            transform: rotate(-45deg);
+            top: 1.75rem;
+            transition: bottom 0.3s ease-in-out, transform 0.3s ease-in-out 0.3s;
+        }
+
+
+        .nav {
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            transform: scaleY(0);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            transform-origin: 50% 0;
+        }
+
+        .nav li {
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        #tagger:checked~.nav {
+            transform: scaleY(1);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="checkbox" id="tagger">
+    <label for="tagger">
+        <div class="headerNav">
+            <span></span>
+            <span></span>
+        </div>
+    </label>
+    <ul class="nav">
+        <li>home</li>
+        <li>mine</li>
+        <li>class</li>
+        <li>html</li>
+        <li>javascript</li>
+    </ul>
+</body>
+
+</html>
