@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content {
+            width: 300px;
+            height: 500px;
+            border: 1px solid #000;
+            background-color: mediumaquamarine;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input class="loginBtn" type="button" value="login">
+        <input class="get" type="button" value="get">
+        <div class="content"></div>
+    </div>
+    <script src="./socket.io.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        let baseUrl = "http://localhost:3300/"
+
+        let config = {
+            timeout: 3000,
+            baseURL: baseUrl
+        }
+
+        let http = axios.create(config)
+
+        http.interceptors.request.use(
+            config => {
+                // let token = localStorage.getItem("token")
+                // if (!config.url.match(/users\/login/)) {
+                //     config.headers.common['Authorization'] = "Bearer " + JSON.parse(token)
+                // }
+                return config
+            }, err => {
+                return Promise.reject(err);
+            })
+        http.interceptors.response.use(
+            res => {
+                if (res.status == 200) {
+                    return res.data
+                }
+
+            }, err => {
+                return Promise.reject(err)
+            })
+
+
+        function httpRquest(url, method, params = {}) {
+            return new Promise((resolve, reject) => {
+                http({
+                    method,
+                    url,
+                    data: params
+                }).then(res => resolve(res))
+                    .catch(err => reject(err))
+            })
+        }
+
+        document.querySelector(".loginBtn").addEventListener("click", () => {
+            httpRquest("users/login", "post", { id: 0, name: "chenshi" })
+                .then(res => {
+                    localStorage.setItem("token", JSON.stringify(res.token))
+                    console.log(res)
+                }).catch(err => err)
+        })
+
+        var socket = io();
+        socket.emit('chat message', "assd");
+        // const ws = new WebSocket("ws://localhost:3300/socket")
+        // ws.onopen = function (e) {
+        //     console.log("连接成功")
+        // }
+        // ws.onmessage = e => {
+        //     console.log(e.data)
+        // }
+        // document.querySelector(".get").addEventListener("click", () => {
+        //     ws.send("服务器你好啊")
+        // })
+    </script>
+</body>
+
+</html>

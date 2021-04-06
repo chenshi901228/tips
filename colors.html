@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>colors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+            /* width: 100vw; */
+            padding: 50px;
+        }
+
+        input {
+            border: 1px solid #b3d8ff;
+            padding: 10px 16px;
+            background-color: #ecf5ff;
+            color: #409eff;
+            border-radius: 4PX;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        input:hover {
+            cursor: pointer;
+        }
+
+        input:active {
+            background-color: #409eff;
+            color: #fff;
+        }
+
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: left;
+        }
+
+        ul li {
+            list-style: none;
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+
+        li .modleBox {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .5);
+            opacity: 0;
+            transition: all .2s;
+        }
+
+        li .modleBox a {
+            user-select: none;
+            display: inline-block;
+            border: 2px solid #999;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #fff;
+            padding: 4px 8px;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        li .modleBox a:hover {
+            cursor: pointer;
+        }
+
+        li .modleBox a:active {
+            background-color: #409eff;
+        }
+
+        li:hover .modleBox {
+            opacity: 1;
+        }
+
+        .message {
+            width: 400px;
+            background-color: #ebeef5;
+            border-radius: 6px;
+            position: fixed;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+        }
+
+        .message.animate {
+            animation: msgShow .6s ease-in-out forwards, msgHide .8s ease-in-out 1.5s forwards;
+
+        }
+
+        .message p {
+            line-height: 46px;
+            text-align: center;
+            font-size: 16px;
+            color: #909399;
+        }
+
+        @keyframes msgShow {
+            to {
+                top: 50px;
+            }
+        }
+
+        @keyframes msgHide {
+            from {
+                top: 50px;
+            }
+
+            to {
+                top: -80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="message">
+        <p>something</p>
+    </div>
+    <div class="main">
+        <input type="button" value="refresh">
+        <ul>
+        </ul>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <script>
+        let refreshBtn = document.querySelector("input")
+        let content = document.querySelector("ul")
+        let msg = document.querySelector(".message")
+        let colorNumber = 30 //显示颜色条数
+        //生成随机字母数字
+        function getRandom() {
+            let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f", "A", "B", "C", "D", "E", "F"]
+            let i = Math.floor(Math.random() * arr.length)
+            return arr[i]
+        }
+        // 生成随机颜色
+        function getColor() {
+            let color = "#"
+            for (let i = 0; i < 6; i++) {
+                color += getRandom()
+            }
+            return color
+        }
+        // 渲染函数
+        function render() {
+            content.innerHTML = ""
+            for (let i = 0; i < colorNumber; i++) {
+                let color = getColor()
+                content.innerHTML += `
+                <li style="background-color:${color}">
+                    <div class="modleBox">
+                        <a class="copyBtn" data-clipboard-text="${color}">Copy</a>
+                        </div>
+                        </li>`
+            }
+        }
+
+        render()
+
+        //复制颜色
+        const clipboard = new ClipboardJS(".copyBtn")
+        clipboard.on("success", e => {
+            msg.innerHTML = `<p>复制成功</p>`
+            msg.classList.add("animate")
+            setTimeout(() => { msg.classList.remove("animate") }, 3000)
+        })
+        // 重新换颜色
+        refreshBtn.addEventListener("click", () => {
+            render()
+        })
+
+    </script>
+</body>
+
+</html>

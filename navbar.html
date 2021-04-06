@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            /* justify-content: space-between; */
+        }
+
+        body>div:not(:nth-child(2)) {
+            width: 200px;
+            height: 500px;
+            background-color: #000;
+        }
+
+        body>div:nth-child(2) {
+            /* width: calc(100% - 400px); */
+            height: 500px;
+            background-color: pink;
+            flex-grow: 1;
+            border: 2px solid #fff;
+        }
+
+        nav {
+            background-color: #3498db;
+            border-radius: 6px;
+            position: relative;
+            font-size: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            line-height: 50px;
+            font-size: 20px;
+            font-weight: 700;
+            padding: 0 10px;
+            z-index: 10;
+            display: inline-block;
+            position: relative;
+        }
+
+        nav .nav-box {
+            background-color: #d35400;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 5;
+            border-radius: 6px;
+            transition: all .3s;
+        }
+
+        nav .point {
+            width: calc(var(--w));
+            left: calc(var(--x));
+        }
+
+        nav .active {
+            width: calc(var(--cw));
+            left: calc(var(--cx));
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+    <div>
+        <nav>
+            <a data-index="1" href="">home</a>
+            <a data-index="2" href="">class</a>
+            <a data-index="3" href="">contact</a>
+            <a data-index="4" href="">javascript</a>
+            <a data-index="5" href="">my</a>
+            <div class="nav-box"></div>
+        </nav>
+    </div>
+    <div></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        let currentA = document.querySelector(".nav-box")
+        let navList = document.querySelectorAll("a")
+        currentA.style.setProperty("--cx", navList[0].offsetLeft + "px")
+        currentA.style.setProperty("--cw", navList[0].getBoundingClientRect().width + "px")
+        currentA.classList.add("active")
+        document.querySelector("nav").addEventListener("mouseover", (e) => {
+            if (e.target.nodeName == "A") {
+                let rect = e.target.getBoundingClientRect()
+                let i = e.target.getAttribute("data-index")
+                currentA.classList.remove("active")
+                currentA.style.setProperty("--x", e.target.offsetLeft + "px")
+                currentA.style.setProperty("--w", rect.width + "px")
+                currentA.classList.add("point")
+            }
+        })
+        document.querySelector("nav").addEventListener("mouseout", () => {
+            currentA.classList.remove("point")
+            currentA.classList.add("active")
+        })
+    </script>
+</body>
+
+</html>

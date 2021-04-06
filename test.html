@@ -6,38 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            display: flex;
-            /* justify-content: space-between; */
-        }
-
-        body div:not(:nth-child(2)) {
-            width: 200px;
-            height: 500px;
-            background-color: #000;
-        }
-
-        body div:nth-child(2) {
-            /* width: calc(100% - 400px); */
-            height: 500px;
-            background-color: pink;
-            flex-grow: 1;
-            border: 2px solid #fff;
-        }
-    </style>
 </head>
 
 <body>
-    <div></div>
-    <div></div>
-    <div></div>
+    <div>
+        <div title="this is none">asdkjahsd</div>
+        <input type="button" value="click">
+    </div>
+    <script>
+        document.querySelector("input[type='button']").addEventListener("click", e => {
+            fetch("http://localhost:80/petShop/index.php").then(res => {
+                console.log(res)
+            })
+        })
+    </script>
 </body>
 
 </html>
